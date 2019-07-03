@@ -33,6 +33,14 @@ class DHT22:
         self.initTime = initTime
         self.endTime = endTime
 
+    def setDefaults(self):
+        """
+        Set default parameters
+        """
+        self.pSampling = 30
+        self.initTime = 0
+        self.endTime = 0
+
     def getReadings(self):
         """
         Get the readings from the sensor and
