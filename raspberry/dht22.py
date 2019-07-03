@@ -62,7 +62,7 @@ class DHT22:
         """
         if (self.initTime == self.endTime):
             return True
-        if (self.initTime <= t and t < self.endTime):
+        if (self.initTime <= t and t <= self.endTime):
             return True
         else:
             return False
