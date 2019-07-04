@@ -5,15 +5,17 @@ for reading the DHT22 sensor using the Adafruit library.
 
 import Adafruit_DHT as dht
 from time import sleep
+import sensor as S
 
-class DHT22:
+class DHT22(s.Sensor):
     def __init__(self):
+        super().__init__()
         self.dht = dht.DHT22
         self.pin = 18
         self.pSampling = 30 #s
         self.initTime = 0
         self.endTime = 0
-        
+
     def setPSampling(self, period):
         """
         Set the period of sampling, which will be in the
@@ -22,7 +24,7 @@ class DHT22:
         if (period < 30 or period > 300):
             return
         self.pSampling = period
-        
+
     def setSamplingInterval(self, initTime, endTime):
         """
         Sets the interval of time on which the sensor
@@ -48,13 +50,13 @@ class DHT22:
         """
         hum, temp = dht.read(self.dht, self.pin)
         return hum, temp
-        
+
     def Sleep(self):
         """
         Sleep for the stablished period of time
         """
         sleep(self.pSampling)
-        
+
     def withinInterval(self, t):
         """
         Checks whether the time t is within interval.
@@ -66,4 +68,3 @@ class DHT22:
             return True
         else:
             return False
-

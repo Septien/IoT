@@ -4,21 +4,23 @@ HC-SR04 ultrasonic sensor.
 """
 import RPi.GPIO as gpio
 import time as t
+import sensor as S
 
-class HCSR04:
+class HCSR04(s.Sensor):
     def __init__(self):
+        super().__init__()
         # Set interface pins
         self.gpio_trigger = 23
         self.gpio_echo = 24
 
         # Set gpio mode
         gpio.setmode(gpio.BCM)
-        
+
         # set gpio direction
         gpio.setup(gpio_trigger, gpio.OUT)
         gpio.setup(gpio_echo, gpio.IN)
 
-    def getDistance(self):
+    def getReadings(self):
         """
         Get the read distance from the sensor
         """
@@ -45,3 +47,8 @@ class HCSR04:
 
         return distance
 
+    def Sleep(self):
+        """
+        For compatibility only
+        """
+        pass
