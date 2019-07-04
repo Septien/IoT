@@ -7,6 +7,7 @@ class PushButton:
         self.led = led
         gpio.setmode(gpio.BOARD)
         gpio.setup(11, gpio.IN, pull_up_down=gpio.PUD_DOWN)
+        # Set callback
         gpio.add_event_detect(11, gpio.RISING, callback=self.button_callback, bouncetime=10)
 
     def button_callback(channel):
