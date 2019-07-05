@@ -35,8 +35,21 @@ def main():
     hcLock = t.Lock()
     dhtExitL = t.Lock()
     hcExitL = t.Lock()
-    # Create the threads for each sensor
+    # Create the thread for DHT sensor
     thread1 = sThread.SensorThread(1, "Thread1", qDatadht, dhtLock, qdhtExit, dhtExitL)
+    # Create thread for HC-SR04 sensor
+    thread2 = sThread.SensorThread(2, "Thread2", qDataHC, hcLock, qhcExit, hcExitL)
+    # Start
+    thread1.start()
+    thread2.start()
+
+    endProcess = False
+    
+    while not endProcess:
+        dhtLock.acquire()
+        if not qDatadht.empty():
+            data = qDatadht.get()
+        dhtLock.release()
 
 if __name__ == '__main__':
     main()
