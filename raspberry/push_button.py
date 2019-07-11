@@ -1,5 +1,6 @@
 import RPi.GPIO as gpio
 import time
+import btWrapper
 
 class PushButton:
     def __init__(self, dht22, led, pin):
@@ -16,3 +17,16 @@ class PushButton:
         """
         self.dht22.setDefaults()
         self.led.turnOffLED()
+
+class PushButtonBT:
+    def __init__(self, pin):
+        gpio.setmode(gpio.BOARD)
+        gpio.setup(pin, gpio.IN, pull_up_down=gpio.PUD_DOWN)
+        # Set callback
+        gpio.add_event_detect(11, gpio.RISING, callback=self.button_callback, bouncetime=10)
+
+    def button_callback(channel):
+        """
+        Configure bluetooth
+        """
+        btWrapper.connBT()
