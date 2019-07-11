@@ -2,6 +2,7 @@
 Main module for the raspberry.
 """
 
+import os
 import csv
 from csv import writer
 import time
@@ -21,7 +22,14 @@ def writeToFile(fileName, data):
         data_writer = writer(logger)
         data_writer.write_row(data)
 
+def connectWiFi():
+    """
+    Use wpa_supplicant to connect to Wi-Fi service
+    """
+    os.system("sudo wpa_supplicant -iwlan0 -c/etc/wpa_supplicant.conf -B")
+
 def main():
+    connectWiFi()
     user = False
     saveDHTData = True
     hclogFile = "hclog.csv";
@@ -31,6 +39,7 @@ def main():
     hcsr04S = hcsr04.HCSR04()
     ledS = led.LED()
     resetPB = push_button.PushButton(dht22S, ledS, 11)
+    btButton = push_button.PushButtonBT(12)
     # Create the queues for each sensor
     qDatadht = q.Queue(1000)
     qdhtExit = q.Queue(1)
