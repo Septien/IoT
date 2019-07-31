@@ -12,7 +12,7 @@ def ServerS(t.Thread):
     """
     Handles the server thread
     """
-    def __init__(self, threadID, name, dataQ, dataQLock, exitQ, exitQLock):
+    def __init__(self, threadID, name, fileName, dataQ, dataQLock, exitQ, exitQLock):
         t.thread.__init__(self)
         self.threadID = threadID
         self.name = name
@@ -22,6 +22,7 @@ def ServerS(t.Thread):
         self.exitQLock = exitQLock
         # Create server socket
         self.servSocket = skt.socket(skt.AF_INET, skt.SOCK_STREAM)
+        self.fileName = fileName
 
         # Bind socket
         self.servSocket.bind((skt.gethostname(), 8080))
@@ -50,6 +51,15 @@ def ServerS(t.Thread):
                         data = cmd.split(",")
                         self.write2Q(data)
                 elif cmd == "GET":
+                    with open(fileName, "r") as file:
+                        while True:
+                            line = file.readline()
+                            st = self.write(clientSkt, data, 512)
+                            if st == -1:
+                                state = 0
+                                break
+                    with open(fileName, "w") as file:
+                        file.write("")
                     self.dataQLock.acquire()
                     if not self.dataQ.empty():
                         while not self.dataQ.empty():
@@ -63,6 +73,7 @@ def ServerS(t.Thread):
                 elif not cmd:
                     # connection close, wait for more.
                     state = 0
+                    self.servSocket.listen(1)
                 else:
                     # command not known
                     continue
@@ -99,5 +110,3 @@ def ServerS(t.Thread):
         self.dataQLock.acquire()
         self.dataQ.put(data)
         self.dataQLock.release()
-
-
