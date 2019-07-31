@@ -6,4 +6,30 @@
     android:layout_height="match_parent"
     tools:context=".plotsActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_gravity="bottom"
+        android:weightSum="100">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme" />
+
+        <com.jjoe64.graphview.GraphView
+            android:id="@+id/graphT"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="50" />
+
+        <com.jjoe64.graphview.GraphView
+            android:id="@+id/graphH"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="50" />
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
