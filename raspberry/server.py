@@ -44,32 +44,22 @@ def ServerS(t.Thread):
             if state == 1 and rdy2write[0] == clientSkt:            # Recv/send data
                 cmd = self.read(clientSkt, 3)
                 if cmd == "SET":
-                    cmd = self.read(clientSkt, 1024)
-                    if cmd == "RESET":
-                        self.write2Q("RESET")
-                    else:
-                        data = cmd.split(",")
-                        self.write2Q(data)
+                    data = self.read(clientSkt, 1024)
+                    data1 = data.split(",")
+                    data = cmd.split(",")
+                    self.write2Q(data)
                 elif cmd == "GET":
-                    with open(fileName, "r") as file:
+                    with open(self.fileName) as file:
                         while True:
                             line = file.readline()
-                            st = self.write(clientSkt, data, 512)
+                            st = self.write(clientSkt, line, 512)
                             if st == -1:
                                 state = 0
                                 break
-                    with open(fileName, "w") as file:
+                            if line == "":
+                                break
                         file.write("")
-                    self.dataQLock.acquire()
-                    if not self.dataQ.empty():
-                        while not self.dataQ.empty():
-                            data = self.dataQ.get()
-                            dataN = ''.join(data)
-                            st = self.write(clientSkt, data, 512)
-                            if st == -1:
-                                state = 0
-                                break
-                    self.dataQLock.release()
+
                 elif not cmd:
                     # connection close, wait for more.
                     state = 0
