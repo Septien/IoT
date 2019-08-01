@@ -10,7 +10,7 @@ class HCSR04(s.Sensor):
     def __init__(self):
         super().__init__()
         # Set interface pins
-        self.gpio_trigger = 23
+        self.gpio_trigger = 25
         self.gpio_echo = 24
 
         # Set gpio mode
