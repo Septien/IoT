@@ -92,16 +92,21 @@ def main():
                 writeToFile(logFile, data)
 
         # Get params
+        data = None
         serverLock.acquire()
         if not serverQ.empty():
             data = serverQ.get()
         serverLock.release()
-        if data[0] == "1":
+        if not data:
+            continue
+        if data[0] == "1":  # Reset
             dht22S.setDefaults()
-            self.led.turnOffLED()
+            ledS.turnOffLED()
         dht22S.setSamplingInterval(int(data[1]), int(data[2]))
         dht22S.setPSampling(int(data[3]))
         saveDHTData = bool(int(data[4]))
+        if bool(int(data[5])):
+            ledS.turnOffLED()
 
 if __name__ == '__main__':
     main()
