@@ -45,7 +45,7 @@ class HCSR04(s.Sensor):
         timeElapsed = StopTime - StartTime
         distance = (timeElapsed * 34300) / 2
 
-        return distance
+        return (distance <= 400)
 
     def Sleep(self):
         """
