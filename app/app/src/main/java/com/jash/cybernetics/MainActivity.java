@@ -8,13 +8,14 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.view.View;
-import java.util.concurrent.BlockingDeque;
-import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import androidx.appcompat.widget.Toolbar;
 
 public class MainActivity extends AppCompatActivity {
-    public static BlockingDeque<String> q;
+    public static BlockingQueue<String> q = null;
+    public static BlockingQueue<String> dataQ = null;
     private Thread clientThread = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,8 +23,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        q = new LinkedBlockingDeque<String>();
-        clientThread = new client("127.0.0.1", 8080, q);
+        q = new LinkedBlockingQueue<String>(1000);
+        dataQ = new LinkedBlockingQueue<String>(1000);
+        clientThread = new client("127.0.0.1", 8080, q, dataQ);
         clientThread.run();
     }
 
@@ -35,5 +37,24 @@ public class MainActivity extends AppCompatActivity {
     public void btnOnClickCtrls(View view) {
         Intent actSec = new Intent(this, ctrlsActivity.class);
         startActivity(actSec);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            q.put("EXIT");
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                clientThread.join();
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
