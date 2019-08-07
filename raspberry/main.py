@@ -91,22 +91,37 @@ def main():
                 data = ["DHT", dht22Data[0], dht22Data[1]]
                 writeToFile(logFile, data)
 
-        # Get params
-        data = None
+        # Verify is there are new params
+        data = []
         serverLock.acquire()
-        if not serverQ.empty():
-            data = serverQ.get()
+        interval = []
+        # Get the new parameters
+        while not serverQ.empty():
+            data.append(serverQ.get())
         serverLock.release()
         if not data:
             continue
-        if data[0] == "1":  # Reset
-            dht22S.setDefaults()
-            ledS.turnOffLED()
-        dht22S.setSamplingInterval(int(data[1]), int(data[2]))
-        dht22S.setPSampling(int(data[3]))
-        saveDHTData = bool(int(data[4]))
-        if bool(int(data[5])):
-            ledS.turnOffLED()
+        # Modify params is necessary
+        for d in data:
+            dSplit = d.split(",")
+            if dSplit[0] == "RS" and dSplit[1] == "1":
+                dht22S.setDefaults()
+                ledS.turnOffLED()
+            if dSplit[0] = "LI" and dSplit[1] != "-1":
+                interval.append(dSplit[1])
+            if dSplit[0] = "UI" and dSplit[1] != "-1":
+                interval.append(dSplit[1])
+            if dSplit[0] = "SP" and dSplit[1] != "-1":
+                dht22S.setPSampling(int(data[1]))
+            if dSplit[0] = "SV" and dSplit[1] != "-1":
+                saveDHTData = bool(int(dSplit[1]))
+            if dSplit[0] = "TF" and dSplit[1] == "1":
+                ledS.turnOffLED()
+        #
+        if interval:
+            dht22S.setSamplingInterval(int(interval[1]), int(interval[2]))
+        if not dht22S.withinInterval(time.time()):
+            saveDHTData = False
 
 if __name__ == '__main__':
     main()
