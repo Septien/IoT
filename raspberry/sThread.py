@@ -37,6 +37,8 @@ class SensorThread(t.Thread):
             self.exitQLock.release()
             # Get the data
             data = self.sensor.getReadings()
+            if data == None:
+                continue
             self.dataQLock.acquire()
             self.dataQ.put(data)
             self.dataQLock.release()
