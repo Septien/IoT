@@ -43,11 +43,21 @@
                     android:gravity="center"
                     android:text="Interval Lower limit" />
 
-                <EditText
+                <Button
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="60"
-                    android:singleLine="true" />
+                    android:layout_weight="30"
+                    android:gravity="center"
+                    android:text="Time"
+                    android:onClick="showTimePickerDialogL"/>
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="30"
+                    android:gravity="center"
+                    android:text="Date"
+                    android:onClick="showDatePickerDialogL"/>
 
             </LinearLayout>
 
@@ -65,11 +75,21 @@
                     android:gravity="center"
                     android:text="Interval Upper limit" />
 
-                <EditText
+                <Button
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="60"
-                    android:singleLine="true" />
+                    android:layout_weight="30"
+                    android:gravity="center"
+                    android:text="Time"
+                    android:onClick="showTimePickerDialogU"/>
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="30"
+                    android:gravity="center"
+                    android:text="Date"
+                    android:onClick="showDatePickerDialogU"/>
             </LinearLayout>
 
         </LinearLayout>
