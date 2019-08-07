@@ -45,9 +45,9 @@ def ServerS(t.Thread):
                 cmd = self.read(clientSkt, 3)
                 if cmd == "SET":
                     data = self.read(clientSkt, 1024)
-                    data1 = data.split(",")
-                    data = cmd.split(",")
-                    self.write2Q(data)
+                    data1 = data.split(";")
+                    for d in data1:
+                        self.write2Q(d)
                 elif cmd == "GET":
                     with open(self.fileName) as file:
                         while True:
