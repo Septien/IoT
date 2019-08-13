@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         q = new LinkedBlockingQueue<String>(1000);
         dataQ = new LinkedBlockingQueue<String>(1000);
         clientThread = new client("127.0.0.1", 8080, q, dataQ);
-        clientThread.run();
+        clientThread.start();
     }
 
     public void btnOnClickPlts(View view) {
