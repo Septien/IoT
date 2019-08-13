@@ -77,7 +77,6 @@ public class client extends Thread {
                 else if (cmdS[0].equals("GET")) {
                     output.println("GET");
                     boolean getData = true;
-                    PrintWriter outT, outH;
                     while (getData) {
                         cmd = input.readLine();
                         if (cmd.equals("DONE")) {
