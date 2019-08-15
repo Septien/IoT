@@ -23,14 +23,7 @@ def writeToFile(fileName, data):
         data_writer = writer(logger)
         data_writer.write_row(data)
 
-def connectWiFi():
-    """
-    Use wpa_supplicant to connect to Wi-Fi service
-    """
-    os.system("sudo wpa_supplicant -iwlan0 -c/etc/wpa_supplicant.conf -B")
-
 def main():
-    connectWiFi()
     user = False
     saveDHTData = True
     logFile = "logger.txt"
