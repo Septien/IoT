@@ -27,7 +27,7 @@ class HCSR04(s.Sensor):
         # Set Trigger to high
         gpio.output(gpio_trigger, True)
 
-        # Set Trigger agter 0.01ms to low
+        # Set Trigger after 0.01ms to low
         t.sleep(0.000001)
         gpio.output(gpio_trigger, False)
 
