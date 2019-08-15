@@ -3,17 +3,17 @@ This module will contain the class for the server part. It inherits from thread,
 to make it run on the background.
 """
 
-import socket as sck
-import threading as t
+import socket as skt
+import threading
 import queue as q
 import select
 
-def ServerS(t.Thread):
+class ServerS(threading.Thread):
     """
     Handles the server thread
     """
     def __init__(self, threadID, name, fileName, dataQ, dataQLock, exitQ, exitQLock):
-        t.thread.__init__(self)
+        threading.Thread.__init__(self)
         self.threadID = threadID
         self.name = name
         self.dataQ = dataQ
@@ -25,7 +25,7 @@ def ServerS(t.Thread):
         self.fileName = fileName
 
         # Bind socket
-        self.servSocket.bind((skt.gethostname(), 8080))
+        self.servSocket.bind(('localhost', 8081))
         # Accept at most one connection
         self.servSocket.listen(1)
 
@@ -44,7 +44,10 @@ def ServerS(t.Thread):
             if state == 1 and rdy2write[0] == clientSkt:            # Recv/send data
                 cmd = self.read(clientSkt, 3)
                 if cmd == "SET":
-                    data = self.read(clientSkt, 1024)
+                    self.write(clientSkt, "ack", 1024)
+                    dataEn = self.read(clientSkt, 1024)
+                    data = dataEn.decode()
+                    self.write(clientSkt, "ack", 1024)
                     data1 = data.split(";")
                     for d in data1:
                         self.write2Q(d)
@@ -87,6 +90,7 @@ def ServerS(t.Thread):
         Send data to client
         """
         totalSent = 0
+        msg = bytearray(data)
         while totalSent < msglen:
             sent = socketS.send(msg[totalSent:])
             if sent == 0:
