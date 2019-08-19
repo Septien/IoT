@@ -3,8 +3,8 @@ import time as t
 
 class LED:
     def __init__(self):
-        self.pin = 13
-        gpio.setmode(gpio.BOARD)
+        self.pin = 16
+        gpio.setmode(gpio.BCM)
         gpio.setup(self.pin, gpio.OUT)
         
     def turnOnLED(self):
