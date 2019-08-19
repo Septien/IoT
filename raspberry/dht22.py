@@ -8,7 +8,7 @@ from time import sleep
 import time as t
 import sensor as S
 
-class DHT22(s.Sensor):
+class DHT22(S.Sensor):
     def __init__(self):
         super().__init__()
         self.dht = dht.DHT22
@@ -49,7 +49,7 @@ class DHT22(s.Sensor):
         Get the readings from the sensor and
         returns it
         """
-        if withinInterval(t.time()):
+        if self.withinInterval(t.time()):
             hum, temp = dht.read(self.dht, self.pin)
             return [temp, hum]
         return None
