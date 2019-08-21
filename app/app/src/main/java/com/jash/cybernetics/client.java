@@ -41,10 +41,7 @@ public class client extends Thread {
             PrintWriter output = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()), true);
             BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-            // input.readLine()
-            // output.println()
             boolean endProc = false;
-            int state = 0;
             while (!endProc) {
                 cmd = cmdQ.poll();
                 if (cmd == null) {
