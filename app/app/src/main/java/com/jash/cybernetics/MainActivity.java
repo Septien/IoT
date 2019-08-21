@@ -21,8 +21,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
         q = new LinkedBlockingQueue<String>(1000);
         dataQ = new LinkedBlockingQueue<String>(1000);
         clientThread = new client("127.0.0.1", 8080, q, dataQ);
