@@ -1,7 +1,6 @@
 package com.jash.cybernetics;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -9,7 +8,6 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.Viewport;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
@@ -22,8 +20,6 @@ public class plotsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plots);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -41,6 +37,9 @@ public class plotsActivity extends AppCompatActivity {
         tempSeries.setColor(Color.GREEN);
         humiSeries.setTitle("Humedad");
         humiSeries.setColor(Color.BLUE);
+
+        graphT.addSeries(tempSeries);
+        graphH.addSeries(humiSeries);
     }
 
     @Override
