@@ -2,6 +2,7 @@ package com.jash.cybernetics;
 
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStreamReader;
@@ -29,6 +30,7 @@ public class client extends Thread {
         dstPort = port;
         cmdQ = q;
         dataQ = dQ;
+        System.out.println("Create");
     }
 
     @Override
@@ -36,17 +38,19 @@ public class client extends Thread {
         Socket socket = null;
         String cmd;//= new String[3];
         String[] cmdS;
+        System.out.println("Connecting");
         try {
             socket = new Socket(dstAddress, dstPort);
             PrintWriter output = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()), true);
             BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-
+            System.out.println("Connected");
             boolean endProc = false;
             while (!endProc) {
                 cmd = cmdQ.poll();
                 if (cmd == null) {
                     continue;
                 }
+                System.out.println(cmd);
                 cmdS = cmd.split(",");
                 // Leave
                 if (cmdS[0].equals("EXIT"))
@@ -63,25 +67,40 @@ public class client extends Thread {
                         cmd = it.next();
                         data = data + ";" + cmd;
                     }
+                    System.out.println(data);
                     // Send to device
                     output.println("SET");
-                    cmd = input.readLine();
+                    output.flush();
+                    //cmd = input.readLine();
                     output.println(data);
-                    cmd = input.readLine();
+                    output.flush();
+                    System.out.println("Sent");
                 }
 
                 // Get data from device
                 else if (cmdS[0].equals("GET")) {
+                    System.out.println("GET");
                     output.println("GET");
                     boolean getData = true;
+                    String msg = "";
+                    int charsRead = 0;
+                    char[] buffer = new char[1024];
                     while (getData) {
-                        cmd = input.readLine();
-                        if (cmd.equals("DONE")) {
+                        charsRead = input.read(buffer);
+                        if (charsRead == -1) {
+                            continue;
+                        }
+                        msg = new String(buffer).substring(0, charsRead);
+                        if (msg.equals("DONE")) {
                             getData = false;
                             continue;
                         }
-                        // Send data to main process
-                        dataQ.put(cmd);
+                        String[] msgC = msg.split(" ");
+                        for (String m : msgC) {
+                            // Send data to main process
+                            System.out.println(m);
+                            dataQ.put(m);
+                        }
                     }
                 }
             }
