@@ -111,11 +111,12 @@
             <Spinner
                 android:id="@+id/spinner"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="60dp"
                 android:layout_margin="20pt"
                 android:layout_weight="60"
+                android:gravity="fill_horizontal"
+                android:layout_gravity="top|bottom"
                 android:scrollbars="vertical"
-                android:textAllCaps="true"
                 android:textColor="@color/colorPrimaryDark" />
         </LinearLayout>
 
