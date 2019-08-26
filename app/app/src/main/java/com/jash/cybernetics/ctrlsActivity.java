@@ -24,7 +24,6 @@ public class ctrlsActivity extends AppCompatActivity implements android.widget.A
 
         // Get the widgets
         Spinner spinner = (Spinner)findViewById(R.id.spinner);
-
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
