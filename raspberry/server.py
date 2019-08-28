@@ -25,7 +25,7 @@ class ServerS(threading.Thread):
         self.fileName = fileName
 
         # Bind socket
-        self.servSocket.bind(('localhost', 8081))
+        self.servSocket.bind(('10.70.60.180', 8080))
         # Accept at most one connection
         self.servSocket.listen(1)
 
@@ -36,18 +36,20 @@ class ServerS(threading.Thread):
         state = 0 # Wait for connections
         clientSkt = 0
         while True:
-            # Get the available sockets
-            rdy2read, rdy2write, err = select.select([self.servSocket], [clientSkt], [])
-            if state == 0 and rdy2read[0] == self.servSocket:       # Accept connections
+            if state == 0:       # Accept connections
                 clientSkt, addr = self.servSocket.accept()
                 state = 1
-            if state == 1 and rdy2write[0] == clientSkt:            # Recv/send data
-                cmd = self.read(clientSkt, 3)
+            # Recv/send data
+            if state == 1:
+                cmdB = self.read(clientSkt, 6)
+                if not cmdB:
+                    # connection close, wait for more.
+                    state = 0
+                    clientSkt.close()
+                    continue
+                cmd = cmdB.replace('\n', '')
                 if cmd == "SET":
-                    self.write(clientSkt, "ack", 1024)
-                    dataEn = self.read(clientSkt, 1024)
-                    data = dataEn.decode()
-                    self.write(clientSkt, "ack", 1024)
+                    data = self.read(clientSkt, 1024)
                     data1 = data.split(";")
                     for d in data1:
                         self.write2Q(d)
@@ -63,13 +65,18 @@ class ServerS(threading.Thread):
                                 break
                         file.write("")
 
-                elif not cmd:
-                    # connection close, wait for more.
-                    state = 0
-                    self.servSocket.listen(1)
                 else:
                     # command not known
                     continue
+            self.exitQLock.acquire()
+            if not self.exitQ.empty():
+                cmd = self.exitQ.get()
+                self.exitQLock.release()
+                break;
+            self.exitQLock.release()
+        clientSkt.close()
+        self.servSocket.close()
+
 
     def read(self, socketS, msglen):
         """
@@ -77,20 +84,16 @@ class ServerS(threading.Thread):
         """
         chunks = []
         bytes_recd = 0
-        while bytes_recd < msglen:
-            chunk = socketS.recv(min(msglen - bytes_recd, 2048))
-            if chunk == b'':
-                return None
-            chunks.append(chunk)
-            bytes_recd += len(chunk)
-        return ''.join(chunks)
+        chunks = socketS.recv(msglen)
+        return chunks.decode()
 
     def write(self, socketS, data, msglen):
         """
         Send data to client
         """
         totalSent = 0
-        msg = bytearray(data)
+        msg = bytearray(data, 'utf-8')
+        msglen = len(msg)
         while totalSent < msglen:
             sent = socketS.send(msg[totalSent:])
             if sent == 0:
