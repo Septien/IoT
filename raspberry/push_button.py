@@ -1,6 +1,5 @@
 import RPi.GPIO as gpio
 import time
-import btWrapper
 
 class PushButton:
     def __init__(self, dht22, led, pin):
