@@ -60,13 +60,14 @@ public class client extends Thread {
                 else if (cmdS[0].equals("SET")) {
                     ArrayList<String> list = new ArrayList<String>();
                     String data = "";
-                    cmdQ.drainTo(list, 7);
+                    data = cmdQ.poll();
+                    /*cmdQ.drainTo(list, 7);
                     Iterator<String> it = list.iterator();
                     // Get parameters
                     while (it.hasNext()) {
                         cmd = it.next();
                         data = data + ";" + cmd;
-                    }
+                    }*/
                     System.out.println(data);
                     // Send to device
                     output.println("SET");

@@ -1,4 +1,4 @@
-#Tue Aug 13 13:56:18 CDT 2019
+#Fri Aug 30 12:24:12 CDT 2019
 base.0=/Users/jash/Documents/Maestria/DS/proyecto final/codigo/IoT/app/app/build/intermediates/dex/debug/mergeDexDebug/out
 path.0=classes.dex
 renamed.0=classes.dex

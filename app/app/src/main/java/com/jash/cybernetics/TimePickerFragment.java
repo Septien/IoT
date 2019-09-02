@@ -13,11 +13,13 @@ import java.util.Calendar;
 
 // Create a time picker
 public class TimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
-    private int hour;
-    private int minute;
+    private int hour = -1;
+    private int minute = -1;
     private Context context;
     TimePickerFragment(Context context) {
         this.context = context;
+        hour = -1;
+        minute = -1;
     }
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {

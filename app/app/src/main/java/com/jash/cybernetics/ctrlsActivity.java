@@ -33,6 +33,17 @@ public class ctrlsActivity extends AppCompatActivity implements android.widget.A
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
+
+        minuteL =  -1;
+        hourL = -1;
+        dayL = -1;
+        monthL = -1;
+        yearL = -1;
+        minuteU = -1;
+        hourU = -1;
+        dayU = -1;
+        monthU = -1;
+        yearU = -1;
     }
 
     // Callback for reset button
@@ -42,13 +53,8 @@ public class ctrlsActivity extends AppCompatActivity implements android.widget.A
         }
         try {
             MainActivity.q.put("SET");
-            MainActivity.q.put("RS,1");
-            MainActivity.q.put("LI,-1");
-            MainActivity.q.put("UI,-1");
-            MainActivity.q.put("SP,-1");
-            MainActivity.q.put("SV,-1");
-            MainActivity.q.put("TF,-1");
-
+            String cmd = "RS,1;LI,-1;UI,-1;SP,-1;SV,-1;TF,-1";
+            MainActivity.q.put(cmd);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -62,12 +68,8 @@ public class ctrlsActivity extends AppCompatActivity implements android.widget.A
         }
         try {
             MainActivity.q.put("SET");
-            MainActivity.q.put("RS,-1");
-            MainActivity.q.put("LI,-1");
-            MainActivity.q.put("UI,-1");
-            MainActivity.q.put("SP,-1");
-            MainActivity.q.put("SV,-1");
-            MainActivity.q.put("TF,1");
+            String cmd = "RS,-1;LI,-1;UI,-1;SP,-1;SV,-1;TF,1";
+            MainActivity.q.put(cmd);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -87,6 +89,10 @@ public class ctrlsActivity extends AppCompatActivity implements android.widget.A
         calUp.set(yearU, monthU, dayU, hourU, minuteU);
         long timeInMillsL = calLow.getTimeInMillis();
         long timeInMillsU = calUp.getTimeInMillis();
+        if (timeInMillsL < 0)
+            timeInMillsL = -1;
+        if (timeInMillsU < 0)
+            timeInMillsU = -1;
         int state = 0;
         if (radioButtonY.isChecked())
             state = 1;
@@ -94,12 +100,8 @@ public class ctrlsActivity extends AppCompatActivity implements android.widget.A
             state = 0;
         try {
             MainActivity.q.put("SET");
-            MainActivity.q.put("RS,-1");
-            MainActivity.q.put("LI," + timeInMillsL);
-            MainActivity.q.put("UI," + timeInMillsU);
-            MainActivity.q.put("SP," + samplingP);
-            MainActivity.q.put("SV," + state);
-            MainActivity.q.put("TF, -1");
+            String cmd = "RS,-1;" + "LI," + timeInMillsL + ";UI," + timeInMillsU + ";SP," + samplingP + ";SV," + state + ";TF,-1";
+            MainActivity.q.put(cmd);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -142,7 +144,7 @@ public class ctrlsActivity extends AppCompatActivity implements android.widget.A
         Toast alert = Toast.makeText(getApplicationContext(), period, Toast.LENGTH_SHORT);
         alert.show();
         String[] split = period.split(" ");
-        samplingP = Float.parseFloat(split[0]);
+        samplingP = Float.parseFloat(split[0]) * 60.0f;
     }
 
     // Necessary for array adapter

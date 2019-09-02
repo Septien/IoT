@@ -128,8 +128,8 @@ public class plotsActivity extends AppCompatActivity {
         String[] cmdS = cmd.split(",");
         System.out.println(cmdS);
         if (cmdS[0].equals("DHT")) {
-            int temp = Integer.parseInt(cmdS[1]);
-            int humi = Integer.parseInt(cmdS[2]);
+            float temp = Float.parseFloat(cmdS[1]);
+            float humi = Float.parseFloat(cmdS[2]);
             tempSeries.appendData(new DataPoint(lastX, temp), true, 100);
             humiSeries.appendData(new DataPoint(lastX++, humi), true, 100);
         }

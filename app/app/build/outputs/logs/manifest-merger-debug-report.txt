@@ -95,10 +95,10 @@ category#android.intent.category.LAUNCHER
 ADDED from /Users/jash/Documents/Maestria/DS/proyecto final/codigo/IoT/app/app/src/main/AndroidManifest.xml:18:17-77
 	android:name
 		ADDED from /Users/jash/Documents/Maestria/DS/proyecto final/codigo/IoT/app/app/src/main/AndroidManifest.xml:18:27-74
-uses-permission#android.permission.INTENET
-ADDED from /Users/jash/Documents/Maestria/DS/proyecto final/codigo/IoT/app/app/src/main/AndroidManifest.xml:22:5-66
+uses-permission#android.permission.INTERNET
+ADDED from /Users/jash/Documents/Maestria/DS/proyecto final/codigo/IoT/app/app/src/main/AndroidManifest.xml:22:5-67
 	android:name
-		ADDED from /Users/jash/Documents/Maestria/DS/proyecto final/codigo/IoT/app/app/src/main/AndroidManifest.xml:22:22-63
+		ADDED from /Users/jash/Documents/Maestria/DS/proyecto final/codigo/IoT/app/app/src/main/AndroidManifest.xml:22:22-64
 uses-sdk
 INJECTED from /Users/jash/Documents/Maestria/DS/proyecto final/codigo/IoT/app/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /Users/jash/Documents/Maestria/DS/proyecto final/codigo/IoT/app/app/src/main/AndroidManifest.xml

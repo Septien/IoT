@@ -13,13 +13,16 @@ import java.util.Calendar;
 
 // Create a date picker
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
-    private int year;
-    private int month;
-    private int day;
+    private int year = -1;
+    private int month = -1;
+    private int day = -1;
     private Context context;
 
     DatePickerFragment(Context context) {
         this.context = context;
+        year = -1;
+        month = -1;
+        day = -1;
     }
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
