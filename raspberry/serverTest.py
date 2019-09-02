@@ -49,15 +49,12 @@ class testServer(unittest.TestCase):
         sent = self.client.send("GET")
         msgB = self.client.recv(15)
         msg = msgB.decode()
-        print(msg)
         msgS = msg.split(",")
         assert len(msgS) == 3
         msg = self.client.recv(15)
-        print(msg)
         msgS = msg.split(",")
         assert len(msgS) == 3
         msg = self.client.recv(15)
-        print(msg)
         msgS = msg.split(",")
         assert len(msgS) == 3
 
