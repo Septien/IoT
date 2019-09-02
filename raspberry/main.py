@@ -81,8 +81,9 @@ def main():
         # DHT data
         if saveDHTData:
             if dht22Data:
-                data = ["DHT", dht22Data[0], dht22Data[1]]
-                writeToFile(logFile, data)
+				if dht22Data[0] != None:
+					data = [" DHT", dht22Data[0], dht22Data[1]]
+					writeToFile(logFile, data)
 
         # Verify is there are new params
         data = []
@@ -97,21 +98,22 @@ def main():
         # Modify params is necessary
         for d in data:
             dSplit = d.split(",")
-            if dSplit[0] == "RS" and dSplit[1] == "1":
+            value = float(dSplit[1])
+            if dSplit[0] == "RS" and value == 1:
                 dht22S.setDefaults()
                 ledS.turnOffLED()
-            if dSplit[0] == "LI" and dSplit[1] != "-1":
+            if dSplit[0] == "LI" and value != -1:
                 interval.append(dSplit[1])
-            if dSplit[0] == "UI" and dSplit[1] != "-1":
+            if dSplit[0] == "UI" and value != -1:
                 interval.append(dSplit[1])
-            if dSplit[0] == "SP" and dSplit[1] != "-1":
-                dht22S.setPSampling(int(data[1]))
-            if dSplit[0] == "SV" and dSplit[1] != "-1":
+            if dSplit[0] == "SP" and value != -1:
+                dht22S.setPSampling(float(dSplit[1]))
+            if dSplit[0] == "SV" and value != -1:
                 saveDHTData = bool(int(dSplit[1]))
-            if dSplit[0] == "TF" and dSplit[1] == "1":
+            if dSplit[0] == "TF" and value != -1:
                 ledS.turnOffLED()
         #
-        if interval:
+        if len(interval) > 0:
             dht22S.setSamplingInterval(int(interval[1]), int(interval[2]))
         if not dht22S.withinInterval(time.time()):
             saveDHTData = False
