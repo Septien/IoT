@@ -5,7 +5,7 @@ to make it run on the background.
 
 import socket as skt
 import threading
-import queue as q
+import Queue as q
 import select
 
 class ServerS(threading.Thread):
@@ -25,7 +25,7 @@ class ServerS(threading.Thread):
         self.fileName = fileName
 
         # Bind socket
-        self.servSocket.bind(('10.70.60.180', 8080))
+        self.servSocket.bind(('192.168.43.215', 8080))
         # Accept at most one connection
         self.servSocket.listen(1)
 
@@ -54,7 +54,7 @@ class ServerS(threading.Thread):
                     for d in data1:
                         self.write2Q(d)
                 elif cmd == "GET":
-                    with open(self.fileName) as file:
+                    with open(self.fileName, "rw") as file:
                         while True:
                             line = file.readline()
                             st = self.write(clientSkt, line, 512)
